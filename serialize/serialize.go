@@ -1,4 +1,4 @@
-package fsrepo
+package serialize
 
 import (
 	"encoding/json"
@@ -7,8 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-
-	"github.com/ipfs/go-ipfs-config"
+	"strings"
 
 	"github.com/facebookgo/atomicfile"
 	"github.com/ipfs/go-ipfs-util"
@@ -46,7 +45,7 @@ func WriteConfigFile(filename string, cfg interface{}) error {
 // encode configuration with JSON
 func encode(w io.Writer, value interface{}) error {
 	// need to prettyprint, hence MarshalIndent, instead of Encoder
-	buf, err := config.Marshal(value)
+	buf, err := Marshal(value)
 	if err != nil {
 		return err
 	}
@@ -55,17 +54,26 @@ func encode(w io.Writer, value interface{}) error {
 }
 
 // Load reads given file and returns the read config, or error.
-func Load(filename string) (*config.Config, error) {
+func Load(filename string, cfg interface{}) error {
 	// if nothing is there, fail. User must run 'ipfs init'
 	if !util.FileExists(filename) {
-		return nil, errors.New("ipfs not initialized, please run 'ipfs init'")
+		return errors.New("ipfs not initialized, please run 'ipfs init'")
 	}
 
-	var cfg config.Config
-	err := ReadConfigFile(filename, &cfg)
-	if err != nil {
-		return nil, err
-	}
+	return ReadConfigFile(filename, cfg)
+}
 
-	return &cfg, err
+// HumanOutput gets a config value ready for printing
+func HumanOutput(value interface{}) ([]byte, error) {
+	s, ok := value.(string)
+	if ok {
+		return []byte(strings.Trim(s, "\n")), nil
+	}
+	return Marshal(value)
+}
+
+// Marshal configuration with JSON
+func Marshal(value interface{}) ([]byte, error) {
+	// need to prettyprint, hence MarshalIndent, instead of Encoder
+	return json.MarshalIndent(value, "", "  ")
 }

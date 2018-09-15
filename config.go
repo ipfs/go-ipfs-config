@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/mitchellh/go-homedir"
 )
@@ -70,21 +69,6 @@ func Path(configroot, extension string) (string, error) {
 // directory. If the configuration root directory is empty, use the default one
 func Filename(configroot string) (string, error) {
 	return Path(configroot, DefaultConfigFile)
-}
-
-// HumanOutput gets a config value ready for printing
-func HumanOutput(value interface{}) ([]byte, error) {
-	s, ok := value.(string)
-	if ok {
-		return []byte(strings.Trim(s, "\n")), nil
-	}
-	return Marshal(value)
-}
-
-// Marshal configuration with JSON
-func Marshal(value interface{}) ([]byte, error) {
-	// need to prettyprint, hence MarshalIndent, instead of Encoder
-	return json.MarshalIndent(value, "", "  ")
 }
 
 func FromMap(v map[string]interface{}) (*Config, error) {

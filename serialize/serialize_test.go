@@ -1,4 +1,4 @@
-package fsrepo
+package serialize
 
 import (
 	"os"
@@ -17,8 +17,8 @@ func TestConfig(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	cfgRead, err := Load(filename)
-	if err != nil {
+	cfgRead := &config.Config{}
+	if err := Load(filename, cfgRead); err != nil {
 		t.Fatal(err)
 	}
 	if cfgWritten.Identity.PeerID != cfgRead.Identity.PeerID {
