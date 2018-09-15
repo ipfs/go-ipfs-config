@@ -79,6 +79,10 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 				Type:        "basic",
 			},
 		},
+		P2P: P2P{
+			Listen:  map[string]string{},
+			Forward: map[string]ForwardConfig{},
+		},
 	}
 
 	return conf, nil
