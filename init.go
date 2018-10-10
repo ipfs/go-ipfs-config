@@ -67,6 +67,7 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 				"Access-Control-Allow-Headers": []string{"X-Requested-With", "Range", "User-Agent"},
 			},
 			APICommands: []string{},
+			FetchBlocks: true,
 		},
 		Reprovider: Reprovider{
 			Interval: "12h",
