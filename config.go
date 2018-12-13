@@ -26,6 +26,7 @@ type Config struct {
 	API       API       // local node's API settings
 	Swarm     SwarmConfig
 	Pubsub    PubsubConfig
+	CID       CID
 
 	Reprovider   Reprovider
 	Experimental Experiments
