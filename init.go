@@ -30,7 +30,6 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 		},
 
 		// setup the node's default addresses.
-		// NOTE: two swarm listen addrs, one tcp, one utp.
 		Addresses: addressesConfig(),
 
 		Datastore: datastore,
@@ -102,6 +101,8 @@ func addressesConfig() Addresses {
 			"/ip4/0.0.0.0/tcp/4001",
 			// "/ip4/0.0.0.0/udp/4002/utp", // disabled for now.
 			"/ip6/::/tcp/4001",
+			"/ip4/0.0.0.0/tcp/4002/ws",
+			"/ip6/::/tcp/4002/ws",
 		},
 		Announce:   []string{},
 		NoAnnounce: []string{},
