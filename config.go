@@ -14,16 +14,17 @@ import (
 
 // Config is used to load ipfs config files.
 type Config struct {
-	Identity  Identity  // local node's peer identity
-	Datastore Datastore // local node's storage
-	Addresses Addresses // local node's addresses
-	Mounts    Mounts    // local node's mount points
-	Discovery Discovery // local node's discovery mechanisms
-	Routing   Routing   // local node's routing settings
-	Ipns      Ipns      // Ipns settings
-	Bootstrap []string  // local nodes's bootstrap peer addresses
-	Gateway   Gateway   // local node's gateway server options
-	API       API       // local node's API settings
+	Identity  Identity               // local node's peer identity
+	Datastore Datastore              // local node's storage
+	Keystore  map[string]interface{} // local node's keystore(s)
+	Addresses Addresses              // local node's addresses
+	Mounts    Mounts                 // local node's mount points
+	Discovery Discovery              // local node's discovery mechanisms
+	Routing   Routing                // local node's routing settings
+	Ipns      Ipns                   // Ipns settings
+	Bootstrap []string               // local nodes's bootstrap peer addresses
+	Gateway   Gateway                // local node's gateway server options
+	API       API                    // local node's API settings
 	Swarm     SwarmConfig
 	Pubsub    PubsubConfig
 
