@@ -24,6 +24,7 @@ type Config struct {
 	Bootstrap []string  // local nodes's bootstrap peer addresses
 	Gateway   Gateway   // local node's gateway server options
 	API       API       // local node's API settings
+	DNS       DNS       // local node's DNS resolver settings
 	Swarm     SwarmConfig
 	Pubsub    PubsubConfig
 
