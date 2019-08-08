@@ -1,21 +1,11 @@
 package config
 
 type DNS struct {
-	// CustomResolver: when true, use a custom DNS server specified in the config, rather than the machine's default DNS resolver
-	CustomResolver bool
-
-	// Address is the address of the custom DNS server (e.g. 1.1.1.1)
-	Address string
-
-	// Protocol to use: "udp" (or "" - default), "dns-over-https", "dns-over-tls"
-	// Optional: default is "" (= "udp")
-	Protocol string
-
-	// DNSoverHTTPSHost is the value for the "Host" header used when making requests via DNS-over-HTTPS
-	// Optional: use if necessary
-	DNSoverHTTPSHost string
-
-	// Port is the port the DNS server listens to
-	// Optional: default value is 53 (udp), 443 (dns-over-https) or 853 (dns-over-tls) depending on the protocol used
-	Port uint
+	// Resolver: multi-address for the DNS resolver to use. If this is empty, it will use the system's built-in resolver. Examples:
+	// /ip4/1.1.1.1/udp/53 -> Sets up a DNS resolver using the standard (UDP, plain-text) DNS protocol
+	// /ip4/1.1.1.1/tcp/853/tls -> DNS-over-TLS
+	// /ip4/1.1.1.1/tcp/443/https -> DNS-over-HTTPS
+	// /ip4/1.1.1.1/tcp/443/https/cloudflare-dns.com -> DNS-over-HTTPS, with explicit hostname (recommended)
+	// /dns4/cloudflare-dns.com/tcp/443/https -> DNS-over-HTTPS using a hostname (this will first resolve the hostname using the system's built-in resolver)
+	Resolver string
 }
