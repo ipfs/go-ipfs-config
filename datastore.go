@@ -23,6 +23,7 @@ type Datastore struct {
 
 	HashOnRead      bool
 	BloomFilterSize int
+	ARCCacheSize    int
 }
 
 // DataStorePath returns the default data store path given a configuration root

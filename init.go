@@ -119,6 +119,7 @@ func DefaultDatastoreConfig() Datastore {
 		StorageGCWatermark: 90, // 90%
 		GCPeriod:           "1h",
 		BloomFilterSize:    0,
+		ARCCacheSize:       64 << 10,
 		Spec: map[string]interface{}{
 			"type": "mount",
 			"mounts": []interface{}{
