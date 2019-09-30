@@ -100,6 +100,8 @@ github.com/multiformats/go-multiaddr-dns v0.1.0 h1:gsPeMvo91XvcsNlQXgJgfjYjbsVV9
 github.com/multiformats/go-multiaddr-dns v0.1.0/go.mod h1:01k2RAqtoXIuPa3DCavAE9/6jc6nM0H3EgZyfUhN2oY=
 github.com/multiformats/go-multiaddr-dns v0.1.1 h1:A1V9mkfbThDsMnhOFLFu5tg4kpsjLWuvlRbBXeQRpo8=
 github.com/multiformats/go-multiaddr-dns v0.1.1/go.mod h1:01k2RAqtoXIuPa3DCavAE9/6jc6nM0H3EgZyfUhN2oY=
+github.com/multiformats/go-multiaddr-dns v0.2.0 h1:YWJoIDwLePniH7OU5hBnDZV6SWuvJqJ0YtN6pLeH9zA=
+github.com/multiformats/go-multiaddr-dns v0.2.0/go.mod h1:TJ5pr5bBO7Y1B18djPuRsVkduhQH2YqYSbxWJzYGdK0=
 github.com/multiformats/go-multibase v0.0.1/go.mod h1:bja2MqRZ3ggyXtZSEDKpl0uO/gviWFaSteVbWT51qgs=
 github.com/multiformats/go-multihash v0.0.1 h1:HHwN1K12I+XllBCrqKnhX949Orn4oawPkegHMu2vDqQ=
 github.com/multiformats/go-multihash v0.0.1/go.mod h1:w/5tugSrLEbWqlcgJabL3oHFKTwfvkofsjW2Qa1ct4U=
