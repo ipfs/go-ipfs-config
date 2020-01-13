@@ -137,6 +137,36 @@ Make sure to backup your data frequently.`,
 			return nil
 		},
 	},
+	"badgerds2": {
+		Description: `Replaces default datastore configuration with experimental
+badger v2 datastore.
+
+If you apply this profile after ipfs init, you will need
+to convert your datastore to the new configuration.
+You can do this using ipfs-ds-convert.
+
+For more on ipfs-ds-convert see
+$ ipfs-ds-convert --help
+and
+$ ipfs-ds-convert convert --help
+
+WARNING: badger v2 datastore is experimental.
+Make sure to backup your data frequently.`,
+
+		Transform: func(c *Config) error {
+			c.Datastore.Spec = map[string]interface{}{
+				"type":   "measure",
+				"prefix": "badger2.datastore",
+				"child": map[string]interface{}{
+					"type":       "badgerds2",
+					"path":       "badgerds2",
+					"syncWrites": false,
+					"truncate":   true,
+				},
+			}
+			return nil
+		},
+	},
 	"default-datastore": {
 		Description: `Restores default datastore configuration.
 
