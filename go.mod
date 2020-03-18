@@ -5,7 +5,6 @@ require (
 	github.com/libp2p/go-libp2p-core v0.5.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/multiformats/go-multiaddr v0.2.1
-	github.com/multiformats/go-multiaddr-dns v0.2.0
 )
 
 go 1.12
