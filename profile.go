@@ -116,7 +116,7 @@ Inverse profile of the test profile.`,
 This is the most battle-tested and reliable datastore, but it's significantly
 slower than the default (badger) datastore. You should use this datastore if:
 
-* You need a very simple and very reliable datastore you and trust your
+* You need a very simple and very reliable datastore and you trust your
   filesystem. This datastore stores each block as a separate file in the
   underlying filesystem so it's unlikely to loose data unless there's an issue
   with the underlying file system.
