@@ -79,8 +79,12 @@ profile, enables discovery in local networks.`,
 is useful when using the daemon in test environments.`,
 
 		Transform: func(c *Config) error {
-			c.Addresses.API = Strings{"/ip4/127.0.0.1/tcp/0"}
-			c.Addresses.Gateway = Strings{"/ip4/127.0.0.1/tcp/0"}
+			c.Addresses.API = []string{
+				"/ip4/127.0.0.1/tcp/0",
+			}
+			c.Addresses.Gateway = []string{
+				"/ip4/127.0.0.1/tcp/0",
+			}
 			c.Addresses.Swarm = []string{
 				"/ip4/127.0.0.1/tcp/0",
 			}
