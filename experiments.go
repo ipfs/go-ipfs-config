@@ -9,4 +9,5 @@ type Experiments struct {
 	P2pHttpProxy         bool
 	QUIC                 bool
 	StrategicProviding   bool
+	PreferNoise          bool // PreferNoise security transport over secio
 }
