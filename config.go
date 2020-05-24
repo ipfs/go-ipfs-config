@@ -27,6 +27,7 @@ type Config struct {
 	Swarm     SwarmConfig
 	AutoNAT   AutoNATConfig
 	Pubsub    PubsubConfig
+	P2P       P2P
 
 	Provider     Provider
 	Reprovider   Reprovider
