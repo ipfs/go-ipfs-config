@@ -18,6 +18,10 @@ type GatewaySpec struct {
 	// NoDNSLink configures this gateway to _not_ resolve DNSLink for the FQDN
 	// provided in `Host` HTTP header.
 	NoDNSLink bool
+
+	// RedirectHost if set configure this gateway to redirect to another
+	// host (domain+port) as CID style when accessing a path style gateway
+	RedirectHost string
 }
 
 // Gateway contains options for the HTTP gateway server.
