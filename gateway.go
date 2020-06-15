@@ -20,7 +20,7 @@ type GatewaySpec struct {
 	NoDNSLink bool
 
 	// RedirectHost if set configure this gateway to redirect to another
-	// host (domain+port) as CID style when accessing a path style gateway
+	// host (domain + optional port)
 	RedirectHost string
 }
 
