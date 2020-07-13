@@ -200,7 +200,7 @@ func CreateIdentity(out io.Writer, opts []options.KeyGenerateOption) (Identity, 
 		sk = priv
 		pk = pub
 	case "ed25519":
-		if settings.Size == -1 {
+		if settings.Size != -1 {
 			return ident, fmt.Errorf("number of key bits does not apply when using ed25519 keys")
 		}
 		fmt.Fprintf(out, "generating ED25519 keypair...")
