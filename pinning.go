@@ -3,10 +3,10 @@ package config
 // Pinning configures the pinning services.
 type Pinning struct {
 	// Services lists the pinning services
-	Services []PinningServices
+	RemoteServices []RemotePinningService
 }
 
-type PinningServices struct {
+type RemotePinningService struct {
 	Name        string
 	ApiEndpoint string
 	ApiKey      string
