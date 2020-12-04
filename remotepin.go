@@ -7,14 +7,21 @@ const (
 )
 
 type Pinning struct {
-	RemoteServices map[string]RemotePinningService
+	MFSRepinInterval string // in ns, us, ms, s, m, h
+	RemoteServices   map[string]RemotePinningService
 }
 
 type RemotePinningService struct {
-	Api RemotePinningServiceApi
+	Api      RemotePinningServiceApi
+	Policies RemotePinningServicePolicies
 }
 
 type RemotePinningServiceApi struct {
 	Endpoint string
 	Key      string
+}
+
+type RemotePinningServicePolicies struct {
+	// PinMFS enables watching for changes in MFS and re-pinning the MFS root cid whenever a change occurs.
+	PinMFS *bool
 }
