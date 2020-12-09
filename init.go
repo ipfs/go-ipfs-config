@@ -86,6 +86,16 @@ func InitWithIdentity(identity Identity) (*Config, error) {
 				Type:        "basic",
 			},
 		},
+		Pinning: Pinning{
+			RemoteServices: map[string]RemotePinningService{},
+			DefaultPolicies: RemotePinningServicePolicies{
+				MFS: RemotePinningServiceMFSPolicy{
+					Enable:        false,
+					Name:          "",
+					RepinInterval: "1m",
+				},
+			},
+		},
 	}
 
 	return conf, nil
