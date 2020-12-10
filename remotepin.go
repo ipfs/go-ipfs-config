@@ -1,10 +1,6 @@
 package config
 
-const (
-	PinningTag             = "Pinning"
-	RemoteServicesTag      = "RemoteServices"
-	RemoteServicesSelector = PinningTag + "." + RemoteServicesTag
-)
+var PinningConcealSelector = []string{"Pinning", "RemoteServices", "*", "Api", "Key"}
 
 type Pinning struct {
 	RemoteServices  map[string]RemotePinningService `json:",omitempty"`
