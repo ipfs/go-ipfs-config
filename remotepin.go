@@ -27,7 +27,7 @@ type RemotePinningServiceMFSPolicy struct {
 	// Enable enables watching for changes in MFS and re-pinning the MFS root cid whenever a change occurs.
 	Enable bool
 	// Name is the pin name for MFS.
-	Name string `json:",omitempty"`
+	PinName string `json:",omitempty"`
 	// RepinInterval determines the repin interval when the policy is enabled. In ns, us, ms, s, m, h.
 	RepinInterval string `json:",omitempty"`
 }
