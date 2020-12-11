@@ -2,20 +2,19 @@ package config
 
 var (
 	RemoteServicesPath     = "Pinning.RemoteServices"
-	PinningConcealSelector = []string{"Pinning", "RemoteServices", "*", "Api", "Key"}
+	PinningConcealSelector = []string{"Pinning", "RemoteServices", "*", "API", "Key"}
 )
 
 type Pinning struct {
-	RemoteServices  map[string]RemotePinningService `json:",omitempty"`
-	DefaultPolicies RemotePinningServicePolicies    `json:",omitempty"`
+	RemoteServices map[string]RemotePinningService `json:",omitempty"`
 }
 
 type RemotePinningService struct {
-	Api      RemotePinningServiceApi
+	API      RemotePinningServiceAPI
 	Policies RemotePinningServicePolicies `json:",omitempty"`
 }
 
-type RemotePinningServiceApi struct {
+type RemotePinningServiceAPI struct {
 	Endpoint string
 	Key      string
 }
@@ -28,7 +27,7 @@ type RemotePinningServiceMFSPolicy struct {
 	// Enable enables watching for changes in MFS and re-pinning the MFS root cid whenever a change occurs.
 	Enable bool
 	// Name is the pin name for MFS.
-	Name string
+	Name string `json:",omitempty"`
 	// RepinInterval determines the repin interval when the policy is enabled. In ns, us, ms, s, m, h.
 	RepinInterval string `json:",omitempty"`
 }
