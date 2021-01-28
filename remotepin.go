@@ -6,12 +6,12 @@ var (
 )
 
 type Pinning struct {
-	RemoteServices map[string]RemotePinningService `json:",omitempty"`
+	RemoteServices map[string]RemotePinningService
 }
 
 type RemotePinningService struct {
 	API      RemotePinningServiceAPI
-	Policies RemotePinningServicePolicies `json:",omitempty"`
+	Policies RemotePinningServicePolicies
 }
 
 type RemotePinningServiceAPI struct {
@@ -20,14 +20,14 @@ type RemotePinningServiceAPI struct {
 }
 
 type RemotePinningServicePolicies struct {
-	MFS RemotePinningServiceMFSPolicy `json:",omitempty"`
+	MFS RemotePinningServiceMFSPolicy
 }
 
 type RemotePinningServiceMFSPolicy struct {
 	// Enable enables watching for changes in MFS and re-pinning the MFS root cid whenever a change occurs.
-	Enable bool `json:",omitempty"`
+	Enable bool
 	// Name is the pin name for MFS.
-	PinName string `json:",omitempty"`
+	PinName string
 	// RepinInterval determines the repin interval when the policy is enabled. In ns, us, ms, s, m, h.
-	RepinInterval string `json:",omitempty"`
+	RepinInterval string
 }
