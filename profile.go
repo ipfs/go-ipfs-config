@@ -107,6 +107,15 @@ Inverse profile of the test profile.`,
 
 			c.Swarm.DisableNatPortMap = false
 			c.Discovery.MDNS.Enabled = true
+			
+			c.Routing.Type = "dht"
+			c.AutoNAT.ServiceMode = AutoNATServiceEnabled
+			c.Reprovider.Interval = "12h"
+
+			c.Swarm.ConnMgr.LowWater = 600
+			c.Swarm.ConnMgr.HighWater = 900
+			c.Swarm.ConnMgr.GracePeriod = "20s"
+			
 			return nil
 		},
 	},
