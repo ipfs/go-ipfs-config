@@ -58,6 +58,7 @@ running IPFS on machines with public IPv4 addresses.`,
 			c.Swarm.AddrFilters = appendSingle(c.Swarm.AddrFilters, defaultServerFilters)
 			c.Discovery.MDNS.Enabled = false
 			c.Swarm.DisableNatPortMap = true
+			c.AutoNAT.ServiceMode = AutoNATServiceDisabled
 			return nil
 		},
 	},
