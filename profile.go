@@ -156,13 +156,14 @@ This is the fastest datastore. Use this datastore if performance, especially
 when adding many gigabytes of files, is critical. However:
 
 * This datastore will not properly reclaim space when your datastore is
-  smaller than several gigabytes. If you run IPFS with '--enable-gc' (you have
-  enabled block-level garbage collection), you plan on storing very little data in
+  smaller than several gigabytes. If plan on storing very little data in
   your IPFS node, and disk usage is more critical than performance, consider using
   flatfs.
-* This datastore uses up to several gigabytes of memory. 
+* This datastore may use up to several gigabytes of memory while running badgerdb's
+  garbage collecctor.
 
-This profile may only be applied when first initializing the node.`,
+This profile may only be applied when first initializing the node, otherwise you
+need to convert your datastore with ipfs-ds-convert after applying.`,
 
 		InitOnly: true,
 		Transform: func(c *Config) error {
