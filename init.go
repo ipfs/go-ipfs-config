@@ -142,6 +142,7 @@ func badgerSpec() map[string]interface{} {
 			"syncWrites": false,
 			"truncate":   true,
 		},
+		"crust": "http://127.0.0.1:12222/api/v0",
 	}
 }
 
