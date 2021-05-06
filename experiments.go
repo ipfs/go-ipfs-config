@@ -8,4 +8,6 @@ type Experiments struct {
 	Libp2pStreamMounting bool
 	P2pHttpProxy         bool
 	StrategicProviding   bool
+	SmartRecordServer    bool
+	SmartRecordClient    bool
 }
