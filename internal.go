@@ -1,12 +1,12 @@
 package config
 
 type Internal struct {
-	Bitswap InternalBitswap
+	Bitswap *InternalBitswap `json:",omitempty"` // This is omitempty since we are expecting to make changes to all subcomponents of Internal
 }
 
 type InternalBitswap struct {
-	TaskWorkerCount             int
-	EngineBlockstoreWorkerCount int
-	EngineTaskWorkerCount       int
-	MaxOutstandingBytesPerPeer  int
+	TaskWorkerCount             OptionalInteger
+	EngineBlockstoreWorkerCount OptionalInteger
+	EngineTaskWorkerCount       OptionalInteger
+	MaxOutstandingBytesPerPeer  OptionalInteger
 }
