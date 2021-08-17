@@ -225,6 +225,9 @@ func TestOptionalInteger(t *testing.T) {
 	}
 
 	var defaultOptionalInt OptionalInteger
+	if !defaultOptionalInt.IsDefault() {
+		t.Fatal("should be the default")
+	}
 	if val := defaultOptionalInt.WithDefault(0); val != 0 {
 		t.Errorf("optional integer should have been 0, got %d", val)
 	}
@@ -239,6 +242,9 @@ func TestOptionalInteger(t *testing.T) {
 
 	var filledInt OptionalInteger
 	filledInt = OptionalInteger{value: makeInt64Pointer(1)}
+	if filledInt.IsDefault() {
+		t.Fatal("should not be the default")
+	}
 	if val := filledInt.WithDefault(0); val != 1 {
 		t.Errorf("optional integer should have been 1, got %d", val)
 	}

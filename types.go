@@ -248,6 +248,11 @@ func (p OptionalInteger) WithDefault(defaultValue int64) (value int64) {
 	return *p.value
 }
 
+// IsDefault returns if this is a default optional integer
+func (p OptionalInteger) IsDefault() bool {
+	return p.value == nil
+}
+
 func (p OptionalInteger) MarshalJSON() ([]byte, error) {
 	if p.value != nil {
 		return json.Marshal(p.value)
