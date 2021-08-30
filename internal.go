@@ -9,4 +9,6 @@ type InternalBitswap struct {
 	EngineBlockstoreWorkerCount OptionalInteger
 	EngineTaskWorkerCount       OptionalInteger
 	MaxOutstandingBytesPerPeer  OptionalInteger
+	CheckTimeout                Duration
+	CheckCidRequiredCount       OptionalInteger
 }
