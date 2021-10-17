@@ -19,6 +19,9 @@ type SwarmConfig struct {
 	// `Transports.Relay` if specified.
 	DisableRelay bool `json:",omitempty"`
 
+	// DisableRelayService disables the limited relay (circuit v2 relay).
+	DisableRelayService bool
+
 	// EnableAutoRelay enables the "auto relay" feature.
 	//
 	// When both EnableAutoRelay and EnableRelayHop are set, this go-ipfs node
