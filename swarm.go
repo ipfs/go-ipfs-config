@@ -19,10 +19,6 @@ type SwarmConfig struct {
 	// `Transports.Relay` if specified.
 	DisableRelay bool `json:",omitempty"`
 
-	// EnableRelayHop makes this node act as a public relay, relaying
-	// traffic between other nodes.
-	EnableRelayHop bool
-
 	// EnableAutoRelay enables the "auto relay" feature.
 	//
 	// When both EnableAutoRelay and EnableRelayHop are set, this go-ipfs node
