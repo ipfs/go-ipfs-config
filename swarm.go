@@ -22,6 +22,8 @@ type SwarmConfig struct {
 	// DisableRelayService disables the limited relay (circuit v2 relay).
 	DisableRelayService bool
 
+	RelayServiceOpts RelayResources
+
 	// EnableAutoRelay enables the "auto relay" feature.
 	//
 	// When both EnableAutoRelay and EnableRelayHop are set, this go-ipfs node
@@ -35,6 +37,38 @@ type SwarmConfig struct {
 
 	// ConnMgr configures the connection manager.
 	ConnMgr ConnMgr
+}
+
+// RelayResources configures the resources of the relay.
+// For any value set to 0, a reasonable default will be used.
+type RelayResources struct {
+	// Limit is the (optional) relayed connection limits.
+	Limit RelayLimit
+
+	// ReservationTTL is the duration of a new (or refreshed reservation).
+	ReservationTTL Duration
+
+	// MaxReservations is the maximum number of active relay slots.
+	MaxReservations int
+	// MaxCircuits is the maximum number of open relay connections for each peer; defaults to 16.
+	MaxCircuits int
+	// BufferSize is the size of the relayed connection buffers.
+	BufferSize int
+
+	// MaxReservationsPerPeer is the maximum number of reservations originating from the same peer.
+	MaxReservationsPerPeer int
+	// MaxReservationsPerIP is the maximum number of reservations originating from the same IP address.
+	MaxReservationsPerIP int
+	// MaxReservationsPerASN is the maximum number of reservations origination from the same ASN.
+	MaxReservationsPerASN int
+}
+
+// RelayLimit are the per relayed connection resource limits.
+type RelayLimit struct {
+	// Duration is the time limit before resetting a relayed connection.
+	Duration Duration
+	// Data is the limit of data relayed (on each direction) before resetting the connection.
+	Data int64
 }
 
 type Transports struct {
