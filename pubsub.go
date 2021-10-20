@@ -10,10 +10,5 @@ type PubsubConfig struct {
 	DisableSigning bool
 
 	// Enable pubsub (--enable-pubsub-experiment)
-	Enabled bool
-
-	// Enable namesys pubsub (--enable-namesys-pubsub)
-	Namesys struct {
-		Enabled bool
-	}
+	Enabled Flag
 }
