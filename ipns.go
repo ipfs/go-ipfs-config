@@ -7,5 +7,5 @@ type Ipns struct {
 	ResolveCacheSize int
 
 	// Enable namesys pubsub (--enable-namesys-pubsub)
-	UsePubsub Flag
+	UsePubsub Flag `json:",omitempty"`
 }

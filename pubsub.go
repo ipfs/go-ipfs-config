@@ -10,5 +10,5 @@ type PubsubConfig struct {
 	DisableSigning bool
 
 	// Enable pubsub (--enable-pubsub-experiment)
-	Enabled Flag
+	Enabled Flag `json:",omitempty"`
 }
