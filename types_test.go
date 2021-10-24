@@ -7,34 +7,55 @@ import (
 )
 
 func TestDuration(t *testing.T) {
-	out, err := json.Marshal(Duration(time.Second))
-	if err != nil {
-		t.Fatal(err)
+	makeDurationPointer := func(d time.Duration) *time.Duration { return &d }
 
-	}
-	expected := "\"1s\""
-	if string(out) != expected {
-		t.Fatalf("expected %s, got %s", expected, string(out))
-	}
-	var d Duration
-	err = json.Unmarshal(out, &d)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if time.Duration(d) != time.Second {
-		t.Fatal("expected a second")
-	}
-	type Foo struct {
-		D Duration `json:",omitempty"`
-	}
-	out, err = json.Marshal(new(Foo))
-	if err != nil {
-		t.Fatal(err)
-	}
-	expected = "{}"
-	if string(out) != expected {
-		t.Fatal("expected omitempty to omit the duration")
-	}
+	t.Run("marshalling and unmarshalling", func(t *testing.T) {
+		out, err := json.Marshal(Duration{value: makeDurationPointer(time.Second)})
+		if err != nil {
+			t.Fatal(err)
+		}
+		expected := "\"1s\""
+		if string(out) != expected {
+			t.Fatalf("expected %s, got %s", expected, string(out))
+		}
+		var d Duration
+
+		if err := json.Unmarshal(out, &d); err != nil {
+			t.Fatal(err)
+		}
+		if *d.value != time.Second {
+			t.Fatal("expected a second")
+		}
+	})
+
+	t.Run("default value", func(t *testing.T) {
+		var d Duration
+		if !d.IsDefault() {
+			t.Fatal("expected value to be the default initially")
+		}
+		if err := json.Unmarshal([]byte("null"), &d); err != nil {
+			t.Fatal(err)
+		}
+		if dur := d.WithDefault(time.Hour); dur != time.Hour {
+			t.Fatalf("expected default value to be used, got %s", dur)
+		}
+		if !d.IsDefault() {
+			t.Fatal("expected value to be the default")
+		}
+	})
+
+	t.Run("omitempyt", func(t *testing.T) {
+		type Foo struct {
+			D *Duration `json:",omitempty"`
+		}
+		out, err := json.Marshal(new(Foo))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if string(out) != "{}" {
+			t.Fatalf("expected omitempty to omit the duration, got %s", out)
+		}
+	})
 }
 
 func TestOneStrings(t *testing.T) {

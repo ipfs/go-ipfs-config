@@ -214,20 +214,48 @@ var _ json.Marshaler = (*Priority)(nil)
 // Duration wraps time.Duration to provide json serialization and deserialization.
 //
 // NOTE: the zero value encodes to an empty string.
-type Duration time.Duration
+type Duration struct {
+	value *time.Duration
+}
 
 func (d *Duration) UnmarshalText(text []byte) error {
-	dur, err := time.ParseDuration(string(text))
-	*d = Duration(dur)
-	return err
+	switch string(text) {
+	case "null", "undefined":
+		*d = Duration{}
+		return nil
+	default:
+		value, err := time.ParseDuration(string(text))
+		if err != nil {
+			return err
+		}
+		*d = Duration{value: &value}
+		return nil
+	}
+}
+
+func (d *Duration) IsDefault() bool {
+	return d.value == nil
+}
+
+func (d *Duration) WithDefault(defaultValue time.Duration) time.Duration {
+	if d.value == nil {
+		return defaultValue
+	}
+	return *d.value
 }
 
 func (d Duration) MarshalText() ([]byte, error) {
-	return []byte(time.Duration(d).String()), nil
+	if d.value != nil {
+		return []byte(d.value.String()), nil
+	}
+	return json.Marshal(nil)
 }
 
 func (d Duration) String() string {
-	return time.Duration(d).String()
+	if d.value == nil {
+		return "defaults"
+	}
+	return d.value.String()
 }
 
 var _ encoding.TextUnmarshaler = (*Duration)(nil)
