@@ -301,7 +301,7 @@ func TestOptionalInteger(t *testing.T) {
 	for _, invalid := range []string{
 		"foo", "-1.1", "1.1", "0.0", "[]",
 	} {
-		var p Priority
+		var p OptionalInteger
 		err := json.Unmarshal([]byte(invalid), &p)
 		if err == nil {
 			t.Errorf("expected to fail to decode %s as a priority", invalid)
