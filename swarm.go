@@ -1,6 +1,9 @@
 package config
 
 type SwarmConfig struct {
+	// Discoverable determines if the node is forcing its reachability status.
+	Discoverable Flag `json:",omitempty"`
+
 	// AddrFilters specifies a set libp2p addresses that we should never
 	// dial or receive connections from.
 	AddrFilters []string
