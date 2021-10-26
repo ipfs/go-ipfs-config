@@ -179,6 +179,7 @@ fetching may be degraded.
 			c.Swarm.ConnMgr.LowWater = 20
 			c.Swarm.ConnMgr.HighWater = 40
 			c.Swarm.ConnMgr.GracePeriod = time.Minute.String()
+			c.Swarm.RelayService.Enabled = False
 			return nil
 		},
 	},

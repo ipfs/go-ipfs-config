@@ -19,14 +19,11 @@ type SwarmConfig struct {
 	// `Transports.Relay` if specified.
 	DisableRelay bool `json:",omitempty"`
 
-	// DisableRelayService disables the limited relay (circuit v2 relay).
-	DisableRelayService bool
-
-	RelayServiceOpts RelayResources
+	RelayService RelayService
 
 	// EnableAutoRelay enables the "auto relay" feature.
 	//
-	// When both EnableAutoRelay and EnableRelayHop are set, this go-ipfs node
+	// When both EnableAutoRelay and RelayService.Enabled are set, this go-ipfs node
 	// will advertise itself as a public relay. Otherwise it will find and use
 	// advertised public relays when it determines that it's not reachable
 	// from the public internet.
@@ -39,9 +36,12 @@ type SwarmConfig struct {
 	ConnMgr ConnMgr
 }
 
-// RelayResources configures the resources of the relay.
-// For any value set to 0, a reasonable default will be used.
-type RelayResources struct {
+// RelayService configures the resources of the circuit v2 relay.
+// For every field a reasonable default will be defined in go-ipfs.
+type RelayService struct {
+	// Enables the limited relay (circuit v2 relay).
+	Enabled Flag
+
 	// Limit is the (optional) relayed connection limits.
 	Limit RelayLimit
 
@@ -49,18 +49,18 @@ type RelayResources struct {
 	ReservationTTL Duration
 
 	// MaxReservations is the maximum number of active relay slots.
-	MaxReservations int
+	MaxReservations OptionalInteger
 	// MaxCircuits is the maximum number of open relay connections for each peer; defaults to 16.
-	MaxCircuits int
+	MaxCircuits OptionalInteger
 	// BufferSize is the size of the relayed connection buffers.
-	BufferSize int
+	BufferSize OptionalInteger
 
 	// MaxReservationsPerPeer is the maximum number of reservations originating from the same peer.
-	MaxReservationsPerPeer int
+	MaxReservationsPerPeer OptionalInteger
 	// MaxReservationsPerIP is the maximum number of reservations originating from the same IP address.
-	MaxReservationsPerIP int
+	MaxReservationsPerIP OptionalInteger
 	// MaxReservationsPerASN is the maximum number of reservations origination from the same ASN.
-	MaxReservationsPerASN int
+	MaxReservationsPerASN OptionalInteger
 }
 
 // RelayLimit are the per relayed connection resource limits.
@@ -68,7 +68,7 @@ type RelayLimit struct {
 	// Duration is the time limit before resetting a relayed connection.
 	Duration Duration
 	// Data is the limit of data relayed (on each direction) before resetting the connection.
-	Data int64
+	Data OptionalInteger
 }
 
 type Transports struct {
