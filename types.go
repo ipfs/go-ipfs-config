@@ -247,7 +247,7 @@ func (d *Duration) WithDefault(defaultValue time.Duration) time.Duration {
 
 func (d Duration) MarshalJSON() ([]byte, error) {
 	if d.value == nil {
-		return json.Marshal("default")
+		return json.Marshal(nil)
 	}
 	return json.Marshal(d.value.String())
 }

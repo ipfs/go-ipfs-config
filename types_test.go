@@ -30,7 +30,7 @@ func TestDuration(t *testing.T) {
 	})
 
 	t.Run("default value", func(t *testing.T) {
-		for _, jsonStr := range []string{"null", "\"\"", "\"default\""} {
+		for _, jsonStr := range []string{"null", "\"null\"", "\"\"", "\"default\""} {
 			var d Duration
 			if !d.IsDefault() {
 				t.Fatal("expected value to be the default initially")
@@ -89,13 +89,25 @@ func TestDuration(t *testing.T) {
 				t.Fatal(err)
 			}
 			if goValue.value == nil {
-				if !bytes.Equal(out, []byte("\"default\"")) {
-					t.Fatalf("expected default string for %s, got %s", jsonStr, string(out))
+				if !bytes.Equal(out, []byte("null")) {
+					t.Fatalf("expected JSON null for %s, got %s", jsonStr, string(out))
 				}
 				continue
 			}
 			if string(out) != jsonStr {
 				t.Fatalf("expected %s, got %s", jsonStr, string(out))
+			}
+		}
+	})
+
+	t.Run("invalid duration values", func(t *testing.T) {
+		for _, invalid := range []string{
+			"\"s\"", "\"1ę\"", "\"-1\"", "\"1H\"", "\"day\"",
+		} {
+			var d Duration
+			err := json.Unmarshal([]byte(invalid), &d)
+			if err == nil {
+				t.Errorf("expected to fail to decode %s as a Duration, got %s instead", invalid, d)
 			}
 		}
 	})
