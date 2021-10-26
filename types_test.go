@@ -29,22 +29,24 @@ func TestDuration(t *testing.T) {
 	})
 
 	t.Run("default value", func(t *testing.T) {
-		var d Duration
-		if !d.IsDefault() {
-			t.Fatal("expected value to be the default initially")
-		}
-		if err := json.Unmarshal([]byte("null"), &d); err != nil {
-			t.Fatal(err)
-		}
-		if dur := d.WithDefault(time.Hour); dur != time.Hour {
-			t.Fatalf("expected default value to be used, got %s", dur)
-		}
-		if !d.IsDefault() {
-			t.Fatal("expected value to be the default")
+		for _, jsonStr := range []string{"null", "\"\"", "\"null\""} {
+			var d Duration
+			if !d.IsDefault() {
+				t.Fatal("expected value to be the default initially")
+			}
+			if err := json.Unmarshal([]byte(jsonStr), &d); err != nil {
+				t.Fatal(err)
+			}
+			if dur := d.WithDefault(time.Hour); dur != time.Hour {
+				t.Fatalf("expected default value to be used, got %s", dur)
+			}
+			if !d.IsDefault() {
+				t.Fatal("expected value to be the default")
+			}
 		}
 	})
 
-	t.Run("omitempyt", func(t *testing.T) {
+	t.Run("omitempty", func(t *testing.T) {
 		type Foo struct {
 			D *Duration `json:",omitempty"`
 		}
@@ -56,6 +58,42 @@ func TestDuration(t *testing.T) {
 			t.Fatalf("expected omitempty to omit the duration, got %s", out)
 		}
 	})
+
+	for jsonStr, goValue := range map[string]Duration{
+		"\"\"":        {},
+		"null":        {},
+		"\"null\"":    {},
+		"\"1s\"":      {value: makeDurationPointer(time.Second)},
+		"\"42h1m3s\"": {value: makeDurationPointer(42*time.Hour + 1*time.Minute + 3*time.Second)},
+	} {
+		var d Duration
+		err := json.Unmarshal([]byte(jsonStr), &d)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if goValue.value == nil && d.value == nil {
+		} else if goValue.value == nil && d.value != nil {
+			t.Errorf("expected nil for %s, got %s", jsonStr, d)
+		} else if *d.value != *goValue.value {
+			t.Fatalf("expected %s for %s, got %s", goValue, jsonStr, d)
+		}
+
+		// Test Reverse
+		out, err := json.Marshal(goValue)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if goValue.value == nil {
+			if string(out) != "\"null\"" {
+				t.Fatalf("expected null string for %s, got %s", jsonStr, string(out))
+			}
+			continue
+		}
+		if string(out) != jsonStr {
+			t.Fatalf("expected %s, got %s", jsonStr, string(out))
+		}
+	}
 }
 
 func TestOneStrings(t *testing.T) {

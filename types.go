@@ -220,7 +220,7 @@ type Duration struct {
 
 func (d *Duration) UnmarshalText(text []byte) error {
 	switch string(text) {
-	case "null", "undefined":
+	case "null", "undefined", "":
 		*d = Duration{}
 		return nil
 	default:
@@ -253,7 +253,7 @@ func (d Duration) MarshalText() ([]byte, error) {
 
 func (d Duration) String() string {
 	if d.value == nil {
-		return "defaults"
+		return "default"
 	}
 	return d.value.String()
 }
