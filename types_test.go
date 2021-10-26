@@ -1,6 +1,7 @@
 package config
 
 import (
+	"bytes"
 	"encoding/json"
 	"testing"
 	"time"
@@ -29,13 +30,13 @@ func TestDuration(t *testing.T) {
 	})
 
 	t.Run("default value", func(t *testing.T) {
-		for _, jsonStr := range []string{"null", "\"\"", "\"null\""} {
+		for _, jsonStr := range []string{"null", "\"\"", "\"default\""} {
 			var d Duration
 			if !d.IsDefault() {
 				t.Fatal("expected value to be the default initially")
 			}
 			if err := json.Unmarshal([]byte(jsonStr), &d); err != nil {
-				t.Fatal(err)
+				t.Fatalf("%s failed to unmarshall with %s", jsonStr, err)
 			}
 			if dur := d.WithDefault(time.Hour); dur != time.Hour {
 				t.Fatalf("expected default value to be used, got %s", dur)
@@ -59,41 +60,45 @@ func TestDuration(t *testing.T) {
 		}
 	})
 
-	for jsonStr, goValue := range map[string]Duration{
-		"\"\"":        {},
-		"null":        {},
-		"\"null\"":    {},
-		"\"1s\"":      {value: makeDurationPointer(time.Second)},
-		"\"42h1m3s\"": {value: makeDurationPointer(42*time.Hour + 1*time.Minute + 3*time.Second)},
-	} {
-		var d Duration
-		err := json.Unmarshal([]byte(jsonStr), &d)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if goValue.value == nil && d.value == nil {
-		} else if goValue.value == nil && d.value != nil {
-			t.Errorf("expected nil for %s, got %s", jsonStr, d)
-		} else if *d.value != *goValue.value {
-			t.Fatalf("expected %s for %s, got %s", goValue, jsonStr, d)
-		}
-
-		// Test Reverse
-		out, err := json.Marshal(goValue)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if goValue.value == nil {
-			if string(out) != "\"null\"" {
-				t.Fatalf("expected null string for %s, got %s", jsonStr, string(out))
+	t.Run("roundtrip including the default values", func(t *testing.T) {
+		for jsonStr, goValue := range map[string]Duration{
+			// there are various footguns user can hit, normalize them to the canonical default
+			"null":        {}, // JSON null → default value
+			"\"null\"":    {}, // JSON string "null" sent/set by "ipfs config" cli → default value
+			"\"default\"": {}, // explicit "default" as string
+			"\"\"":        {}, // user removed custom value, empty string should also parse as default
+			"\"1s\"":      {value: makeDurationPointer(time.Second)},
+			"\"42h1m3s\"": {value: makeDurationPointer(42*time.Hour + 1*time.Minute + 3*time.Second)},
+		} {
+			var d Duration
+			err := json.Unmarshal([]byte(jsonStr), &d)
+			if err != nil {
+				t.Fatal(err)
 			}
-			continue
+
+			if goValue.value == nil && d.value == nil {
+			} else if goValue.value == nil && d.value != nil {
+				t.Errorf("expected nil for %s, got %s", jsonStr, d)
+			} else if *d.value != *goValue.value {
+				t.Fatalf("expected %s for %s, got %s", goValue, jsonStr, d)
+			}
+
+			// Test Reverse
+			out, err := json.Marshal(goValue)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if goValue.value == nil {
+				if !bytes.Equal(out, []byte("\"default\"")) {
+					t.Fatalf("expected default string for %s, got %s", jsonStr, string(out))
+				}
+				continue
+			}
+			if string(out) != jsonStr {
+				t.Fatalf("expected %s, got %s", jsonStr, string(out))
+			}
 		}
-		if string(out) != jsonStr {
-			t.Fatalf("expected %s, got %s", jsonStr, string(out))
-		}
-	}
+	})
 }
 
 func TestOneStrings(t *testing.T) {

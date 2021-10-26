@@ -1,9 +1,9 @@
 package config
 
 import (
-	"encoding"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -213,18 +213,19 @@ var _ json.Marshaler = (*Priority)(nil)
 
 // Duration wraps time.Duration to provide json serialization and deserialization.
 //
-// NOTE: the zero value encodes to an empty string.
+// NOTE: the zero value encodes to "default" string.
 type Duration struct {
 	value *time.Duration
 }
 
-func (d *Duration) UnmarshalText(text []byte) error {
-	switch string(text) {
-	case "null", "undefined", "":
+func (d *Duration) UnmarshalJSON(input []byte) error {
+	switch string(input) {
+	case "null", "undefined", "\"null\"", "", "default", "\"\"", "\"default\"":
 		*d = Duration{}
 		return nil
 	default:
-		value, err := time.ParseDuration(string(text))
+		text := strings.Trim(string(input), "\"")
+		value, err := time.ParseDuration(text)
 		if err != nil {
 			return err
 		}
@@ -244,11 +245,11 @@ func (d *Duration) WithDefault(defaultValue time.Duration) time.Duration {
 	return *d.value
 }
 
-func (d Duration) MarshalText() ([]byte, error) {
-	if d.value != nil {
-		return []byte(d.value.String()), nil
+func (d Duration) MarshalJSON() ([]byte, error) {
+	if d.value == nil {
+		return json.Marshal("default")
 	}
-	return json.Marshal(nil)
+	return json.Marshal(d.value.String())
 }
 
 func (d Duration) String() string {
@@ -258,8 +259,8 @@ func (d Duration) String() string {
 	return d.value.String()
 }
 
-var _ encoding.TextUnmarshaler = (*Duration)(nil)
-var _ encoding.TextMarshaler = (*Duration)(nil)
+var _ json.Unmarshaler = (*Duration)(nil)
+var _ json.Marshaler = (*Duration)(nil)
 
 // OptionalInteger represents an integer that has a default value
 //
