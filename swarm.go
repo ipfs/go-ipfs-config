@@ -42,8 +42,10 @@ type RelayService struct {
 	// Enables the limited relay (circuit v2 relay).
 	Enabled Flag `json:",omitempty"`
 
-	// Limit is the (optional) relayed connection limits.
-	Limit *RelayLimit `json:",omitempty"`
+	// ConnectionDurationLimit is the time limit before resetting a relayed connection.
+	ConnectionDurationLimit *OptionalDuration `json:",omitempty"`
+	// ConnectionDataLimit is the limit of data relayed (on each direction) before resetting the connection.
+	ConnectionDataLimit *OptionalInteger `json:",omitempty"`
 
 	// ReservationTTL is the duration of a new (or refreshed reservation).
 	ReservationTTL *OptionalDuration `json:",omitempty"`
@@ -61,14 +63,6 @@ type RelayService struct {
 	MaxReservationsPerIP *OptionalInteger `json:",omitempty"`
 	// MaxReservationsPerASN is the maximum number of reservations origination from the same ASN.
 	MaxReservationsPerASN *OptionalInteger `json:",omitempty"`
-}
-
-// RelayLimit are the per relayed connection resource limits.
-type RelayLimit struct {
-	// Duration is the time limit before resetting a relayed connection.
-	Duration *OptionalDuration `json:",omitempty"`
-	// Data is the limit of data relayed (on each direction) before resetting the connection.
-	Data *OptionalInteger `json:",omitempty"`
 }
 
 type Transports struct {
