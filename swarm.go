@@ -40,7 +40,7 @@ type SwarmConfig struct {
 // For every field a reasonable default will be defined in go-ipfs.
 type RelayService struct {
 	// Enables the limited relay (circuit v2 relay).
-	Enabled *Flag `json:",omitempty"`
+	Enabled Flag `json:",omitempty"`
 
 	// Limit is the (optional) relayed connection limits.
 	Limit *RelayLimit `json:",omitempty"`
