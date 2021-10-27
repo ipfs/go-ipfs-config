@@ -370,8 +370,9 @@ func TestOptionalString(t *testing.T) {
 		}
 	}
 
+	// marshal with omitempty
 	type Foo struct {
-		I *OptionalString `json:",omitempty"`
+		S *OptionalString `json:",omitempty"`
 	}
 	out, err := json.Marshal(new(Foo))
 	if err != nil {
@@ -381,6 +382,18 @@ func TestOptionalString(t *testing.T) {
 	if string(out) != expected {
 		t.Fatal("expected omitempty to omit the optional integer")
 	}
+	// unmarshal from omitempty output and get default value
+	var foo2 Foo
+	if err := json.Unmarshal(out, &foo2); err != nil {
+		t.Fatalf("%s failed to unmarshall with %s", string(out), err)
+	}
+	if s := foo2.S.WithDefault("foo"); s != "foo" {
+		t.Fatalf("expected default value to be used, got %s", s)
+	}
+	if !foo2.S.IsDefault() {
+		t.Fatal("expected value to be the default")
+	}
+
 	for _, invalid := range []string{
 		"[]", "{}", "0", "a", "'b'",
 	} {

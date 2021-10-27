@@ -293,16 +293,16 @@ type OptionalString struct {
 }
 
 // WithDefault resolves the integer with the given default.
-func (p OptionalString) WithDefault(defaultValue string) (value string) {
-	if p.value == nil {
+func (p *OptionalString) WithDefault(defaultValue string) (value string) {
+	if p == nil || p.value == nil {
 		return defaultValue
 	}
 	return *p.value
 }
 
 // IsDefault returns if this is a default optional integer
-func (p OptionalString) IsDefault() bool {
-	return p.value == nil
+func (p *OptionalString) IsDefault() bool {
+	return p == nil || p.value == nil
 }
 
 func (p OptionalString) MarshalJSON() ([]byte, error) {
