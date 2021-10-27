@@ -46,7 +46,7 @@ type RelayService struct {
 	Limit RelayLimit
 
 	// ReservationTTL is the duration of a new (or refreshed reservation).
-	ReservationTTL Duration
+	ReservationTTL *OptionalDuration `json:",omitempty"`
 
 	// MaxReservations is the maximum number of active relay slots.
 	MaxReservations OptionalInteger
@@ -66,7 +66,7 @@ type RelayService struct {
 // RelayLimit are the per relayed connection resource limits.
 type RelayLimit struct {
 	// Duration is the time limit before resetting a relayed connection.
-	Duration Duration
+	Duration *OptionalDuration `json:",omitempty"`
 	// Data is the limit of data relayed (on each direction) before resetting the connection.
 	Data OptionalInteger
 }
