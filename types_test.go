@@ -7,11 +7,11 @@ import (
 	"time"
 )
 
-func TestDuration(t *testing.T) {
+func TestOptionalDuration(t *testing.T) {
 	makeDurationPointer := func(d time.Duration) *time.Duration { return &d }
 
 	t.Run("marshalling and unmarshalling", func(t *testing.T) {
-		out, err := json.Marshal(Duration{value: makeDurationPointer(time.Second)})
+		out, err := json.Marshal(OptionalDuration{value: makeDurationPointer(time.Second)})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -19,7 +19,7 @@ func TestDuration(t *testing.T) {
 		if string(out) != expected {
 			t.Fatalf("expected %s, got %s", expected, string(out))
 		}
-		var d Duration
+		var d OptionalDuration
 
 		if err := json.Unmarshal(out, &d); err != nil {
 			t.Fatal(err)
@@ -31,7 +31,7 @@ func TestDuration(t *testing.T) {
 
 	t.Run("default value", func(t *testing.T) {
 		for _, jsonStr := range []string{"null", "\"null\"", "\"\"", "\"default\""} {
-			var d Duration
+			var d OptionalDuration
 			if !d.IsDefault() {
 				t.Fatal("expected value to be the default initially")
 			}
@@ -47,10 +47,11 @@ func TestDuration(t *testing.T) {
 		}
 	})
 
-	t.Run("omitempty", func(t *testing.T) {
+	t.Run("omitempty with default value", func(t *testing.T) {
 		type Foo struct {
-			D *Duration `json:",omitempty"`
+			D *OptionalDuration `json:",omitempty"`
 		}
+		// marshall to JSON without empty field
 		out, err := json.Marshal(new(Foo))
 		if err != nil {
 			t.Fatal(err)
@@ -58,10 +59,21 @@ func TestDuration(t *testing.T) {
 		if string(out) != "{}" {
 			t.Fatalf("expected omitempty to omit the duration, got %s", out)
 		}
+		// unmarshall missing value and get the default
+		var foo2 Foo
+		if err := json.Unmarshal(out, &foo2); err != nil {
+			t.Fatalf("%s failed to unmarshall with %s", string(out), err)
+		}
+		if dur := foo2.D.WithDefault(time.Hour); dur != time.Hour {
+			t.Fatalf("expected default value to be used, got %s", dur)
+		}
+		if !foo2.D.IsDefault() {
+			t.Fatal("expected value to be the default")
+		}
 	})
 
 	t.Run("roundtrip including the default values", func(t *testing.T) {
-		for jsonStr, goValue := range map[string]Duration{
+		for jsonStr, goValue := range map[string]OptionalDuration{
 			// there are various footguns user can hit, normalize them to the canonical default
 			"null":        {}, // JSON null → default value
 			"\"null\"":    {}, // JSON string "null" sent/set by "ipfs config" cli → default value
@@ -70,7 +82,7 @@ func TestDuration(t *testing.T) {
 			"\"1s\"":      {value: makeDurationPointer(time.Second)},
 			"\"42h1m3s\"": {value: makeDurationPointer(42*time.Hour + 1*time.Minute + 3*time.Second)},
 		} {
-			var d Duration
+			var d OptionalDuration
 			err := json.Unmarshal([]byte(jsonStr), &d)
 			if err != nil {
 				t.Fatal(err)
@@ -104,10 +116,10 @@ func TestDuration(t *testing.T) {
 		for _, invalid := range []string{
 			"\"s\"", "\"1ę\"", "\"-1\"", "\"1H\"", "\"day\"",
 		} {
-			var d Duration
+			var d OptionalDuration
 			err := json.Unmarshal([]byte(invalid), &d)
 			if err == nil {
-				t.Errorf("expected to fail to decode %s as a Duration, got %s instead", invalid, d)
+				t.Errorf("expected to fail to decode %s as an OptionalDuration, got %s instead", invalid, d)
 			}
 		}
 	})

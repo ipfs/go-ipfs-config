@@ -211,17 +211,17 @@ func (p Priority) String() string {
 var _ json.Unmarshaler = (*Priority)(nil)
 var _ json.Marshaler = (*Priority)(nil)
 
-// Duration wraps time.Duration to provide json serialization and deserialization.
+// OptionalDuration wraps time.Duration to provide json serialization and deserialization.
 //
-// NOTE: the zero value encodes to "default" string.
-type Duration struct {
+// NOTE: the zero value encodes to JSON nill
+type OptionalDuration struct {
 	value *time.Duration
 }
 
-func (d *Duration) UnmarshalJSON(input []byte) error {
+func (d *OptionalDuration) UnmarshalJSON(input []byte) error {
 	switch string(input) {
 	case "null", "undefined", "\"null\"", "", "default", "\"\"", "\"default\"":
-		*d = Duration{}
+		*d = OptionalDuration{}
 		return nil
 	default:
 		text := strings.Trim(string(input), "\"")
@@ -229,38 +229,38 @@ func (d *Duration) UnmarshalJSON(input []byte) error {
 		if err != nil {
 			return err
 		}
-		*d = Duration{value: &value}
+		*d = OptionalDuration{value: &value}
 		return nil
 	}
 }
 
-func (d *Duration) IsDefault() bool {
-	return d.value == nil
+func (d *OptionalDuration) IsDefault() bool {
+	return d == nil || d.value == nil
 }
 
-func (d *Duration) WithDefault(defaultValue time.Duration) time.Duration {
-	if d.value == nil {
+func (d *OptionalDuration) WithDefault(defaultValue time.Duration) time.Duration {
+	if d == nil || d.value == nil {
 		return defaultValue
 	}
 	return *d.value
 }
 
-func (d Duration) MarshalJSON() ([]byte, error) {
+func (d OptionalDuration) MarshalJSON() ([]byte, error) {
 	if d.value == nil {
 		return json.Marshal(nil)
 	}
 	return json.Marshal(d.value.String())
 }
 
-func (d Duration) String() string {
+func (d OptionalDuration) String() string {
 	if d.value == nil {
 		return "default"
 	}
 	return d.value.String()
 }
 
-var _ json.Unmarshaler = (*Duration)(nil)
-var _ json.Marshaler = (*Duration)(nil)
+var _ json.Unmarshaler = (*OptionalDuration)(nil)
+var _ json.Marshaler = (*OptionalDuration)(nil)
 
 // OptionalInteger represents an integer that has a default value
 //
