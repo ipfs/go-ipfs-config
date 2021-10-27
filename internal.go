@@ -2,7 +2,7 @@ package config
 
 type Internal struct {
 	Bitswap                     *InternalBitswap `json:",omitempty"` // This is omitempty since we are expecting to make changes to all subcomponents of Internal
-	UnixFSShardingSizeThreshold OptionalString
+	UnixFSShardingSizeThreshold *OptionalString  `json:",omitempty"`
 }
 
 type InternalBitswap struct {
