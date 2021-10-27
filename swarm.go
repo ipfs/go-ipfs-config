@@ -40,27 +40,27 @@ type SwarmConfig struct {
 // For every field a reasonable default will be defined in go-ipfs.
 type RelayService struct {
 	// Enables the limited relay (circuit v2 relay).
-	Enabled Flag
+	Enabled *Flag `json:",omitempty"`
 
 	// Limit is the (optional) relayed connection limits.
-	Limit RelayLimit
+	Limit *RelayLimit `json:",omitempty"`
 
 	// ReservationTTL is the duration of a new (or refreshed reservation).
 	ReservationTTL *OptionalDuration `json:",omitempty"`
 
 	// MaxReservations is the maximum number of active relay slots.
-	MaxReservations OptionalInteger
+	MaxReservations *OptionalInteger `json:",omitempty"`
 	// MaxCircuits is the maximum number of open relay connections for each peer; defaults to 16.
-	MaxCircuits OptionalInteger
+	MaxCircuits *OptionalInteger `json:",omitempty"`
 	// BufferSize is the size of the relayed connection buffers.
-	BufferSize OptionalInteger
+	BufferSize *OptionalInteger `json:",omitempty"`
 
 	// MaxReservationsPerPeer is the maximum number of reservations originating from the same peer.
-	MaxReservationsPerPeer OptionalInteger
+	MaxReservationsPerPeer *OptionalInteger `json:",omitempty"`
 	// MaxReservationsPerIP is the maximum number of reservations originating from the same IP address.
-	MaxReservationsPerIP OptionalInteger
+	MaxReservationsPerIP *OptionalInteger `json:",omitempty"`
 	// MaxReservationsPerASN is the maximum number of reservations origination from the same ASN.
-	MaxReservationsPerASN OptionalInteger
+	MaxReservationsPerASN *OptionalInteger `json:",omitempty"`
 }
 
 // RelayLimit are the per relayed connection resource limits.
@@ -68,7 +68,7 @@ type RelayLimit struct {
 	// Duration is the time limit before resetting a relayed connection.
 	Duration *OptionalDuration `json:",omitempty"`
 	// Data is the limit of data relayed (on each direction) before resetting the connection.
-	Data OptionalInteger
+	Data *OptionalInteger `json:",omitempty"`
 }
 
 type Transports struct {
