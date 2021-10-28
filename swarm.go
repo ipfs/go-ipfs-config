@@ -16,18 +16,17 @@ type SwarmConfig struct {
 	// DisableRelay explicitly disables the relay transport.
 	//
 	// Deprecated: This flag is deprecated and is overridden by
-	// `Transports.Relay` if specified.
+	// `Swarm.Transports.Relay` if specified.
 	DisableRelay bool `json:",omitempty"`
 
-	RelayService RelayService
-
-	// EnableAutoRelay enables the "auto relay" feature.
-	//
-	// When both EnableAutoRelay and RelayService.Enabled are set, this go-ipfs node
-	// will advertise itself as a public relay. Otherwise it will find and use
-	// advertised public relays when it determines that it's not reachable
-	// from the public internet.
+	// EnableAutoRelay enables the "auto relay user" feature.
+	// Node will find and use advertised public relays when it determines that
+	// it's not reachable from the public internet.
 	EnableAutoRelay bool
+
+	// RelayService.* controls the "auto relay service" feature.
+	// When enabled, node will provide a limited relay service to other peers.
+	RelayService RelayService
 
 	// Transports contains flags to enable/disable libp2p transports.
 	Transports Transports
