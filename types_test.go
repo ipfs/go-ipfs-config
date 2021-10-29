@@ -435,6 +435,7 @@ func TestOptionalString(t *testing.T) {
 	for jsonStr, goValue := range map[string]OptionalString{
 		"null":     {},
 		"\"0\"":    {value: makeStringPointer("0")},
+		"\"\"":     {value: makeStringPointer("")},
 		`"1"`:      {value: makeStringPointer("1")},
 		`"-1"`:     {value: makeStringPointer("-1")},
 		`"qwerty"`: {value: makeStringPointer("qwerty")},
