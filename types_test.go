@@ -407,11 +407,13 @@ func TestOptionalString(t *testing.T) {
 		t.Fatal("should be the default")
 	}
 	if val := defaultOptionalString.WithDefault(""); val != "" {
-		t.Errorf("optional integer should have been empty, got %s", val)
+		t.Errorf("optional string should have been empty, got %s", val)
 	}
-
+	if val := defaultOptionalString.String(); val != "" {
+		t.Fatalf("default optional string should be an empty string, got %s", val)
+	}
 	if val := defaultOptionalString.WithDefault("foo"); val != "foo" {
-		t.Errorf("optional integer should have been foo, got %s", val)
+		t.Errorf("optional string should have been foo, got %s", val)
 	}
 
 	var filledStr OptionalString
@@ -420,12 +422,14 @@ func TestOptionalString(t *testing.T) {
 		t.Fatal("should not be the default")
 	}
 	if val := filledStr.WithDefault("bar"); val != "foo" {
-		t.Errorf("optional integer should have been foo, got %s", val)
+		t.Errorf("optional string should have been foo, got %s", val)
 	}
-
+	if val := filledStr.String(); val != "foo" {
+		t.Fatalf("optional string should have been foo, got %s", val)
+	}
 	filledStr = OptionalString{value: makeStringPointer("")}
 	if val := filledStr.WithDefault("foo"); val != "" {
-		t.Errorf("optional integer should have been 0, got %s", val)
+		t.Errorf("optional string should have been 0, got %s", val)
 	}
 
 	for jsonStr, goValue := range map[string]OptionalString{
