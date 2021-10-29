@@ -358,7 +358,7 @@ func (p *OptionalString) UnmarshalJSON(input []byte) error {
 
 func (p OptionalString) String() string {
 	if p.value == nil {
-		return ""
+		return "default"
 	}
 	return *p.value
 }

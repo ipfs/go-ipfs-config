@@ -409,8 +409,8 @@ func TestOptionalString(t *testing.T) {
 	if val := defaultOptionalString.WithDefault(""); val != "" {
 		t.Errorf("optional string should have been empty, got %s", val)
 	}
-	if val := defaultOptionalString.String(); val != "" {
-		t.Fatalf("default optional string should be an empty string, got %s", val)
+	if val := defaultOptionalString.String(); val != "default" {
+		t.Fatalf("default optional string should be the 'default' string, got %s", val)
 	}
 	if val := defaultOptionalString.WithDefault("foo"); val != "foo" {
 		t.Errorf("optional string should have been foo, got %s", val)
