@@ -19,6 +19,11 @@ type SwarmConfig struct {
 	// `Swarm.Transports.Relay` if specified.
 	DisableRelay bool `json:",omitempty"`
 
+	// StaticRelays configures static relays to use when this node is not
+	// publicly reachable. If set, auto relay will not try to find any
+	// other relay servers.
+	StaticRelays []string
+
 	// EnableAutoRelay enables the "auto relay user" feature.
 	// Node will find and use advertised public relays when it determines that
 	// it's not reachable from the public internet.
