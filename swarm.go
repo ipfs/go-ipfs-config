@@ -36,7 +36,7 @@ type SwarmConfig struct {
 	RelayService RelayService
 
 	// EnableHolePunching enables the hole punching service.
-	EnableHolePunching Flag
+	EnableHolePunching Flag `json:",omitempty"`
 
 	// Transports contains flags to enable/disable libp2p transports.
 	Transports Transports
