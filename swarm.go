@@ -19,6 +19,13 @@ type SwarmConfig struct {
 	// `Swarm.Transports.Relay` if specified.
 	DisableRelay bool `json:",omitempty"`
 
+	// EnableRelayHop makes this node act as a public relay, relaying
+	// traffic between other nodes.
+	//
+	// Deprecated: The circuit v1 protocol is deprecated.
+	// Use `Swarm.RelayService` to configure the circuit v2 relay.
+	EnableRelayHop bool
+
 	// EnableAutoRelay enables the "auto relay user" feature.
 	// Node will find and use advertised public relays when it determines that
 	// it's not reachable from the public internet.
