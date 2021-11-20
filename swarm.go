@@ -24,7 +24,7 @@ type SwarmConfig struct {
 	//
 	// Deprecated: The circuit v1 protocol is deprecated.
 	// Use `Swarm.RelayService` to configure the circuit v2 relay.
-	EnableRelayHop bool
+	EnableRelayHop bool `json:",omitempty"`
 
 	// EnableAutoRelay enables the "auto relay user" feature.
 	// Node will find and use advertised public relays when it determines that
