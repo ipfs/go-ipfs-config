@@ -199,6 +199,22 @@ fetching may be degraded.
 			return nil
 		},
 	},
+	"cors": {
+		Description: `Enables CORS headers for clients
+running IPFS in a browser.`,
+
+		Transform: func(c *Config) error {
+			c.API.HTTPHeaders["Access-Control-Allow-Origin"] = []string{ 
+				"*",
+			}
+			c.API.HTTPHeaders["Access-Control-Allow-Methods"] = []string{
+				"PUT",
+				"GET",
+				"POST",
+			}
+			return nil
+		},
+	},
 }
 
 func getAvailablePort() (port int, err error) {
